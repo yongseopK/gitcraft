@@ -1,4 +1,5 @@
 import { ImageResponse } from '@vercel/og';
+import { TYPES } from '@/lib/types/definitions';
 
 export const config = { runtime: 'edge' };
 
@@ -8,13 +9,18 @@ const COLORS = {
   9: '#06B6D4', 10: '#64748B', 11: '#22C55E', 12: '#3182F6',
 };
 
+const USERNAME_RE = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,37}[a-zA-Z0-9]$|^[a-zA-Z0-9]$/;
+
 export default async function handler(req) {
   const { searchParams } = new URL(req.url);
-  const username = searchParams.get('username') ?? 'unknown';
-  const typeId   = Number(searchParams.get('typeId') ?? 0);
-  const emoji    = searchParams.get('emoji') ?? '⚒️';
-  const typeName = searchParams.get('typeName') ?? '';
-  const subtitle = searchParams.get('subtitle') ?? '';
+
+  // username 검증
+  const rawUsername = searchParams.get('username') ?? '';
+  const username = USERNAME_RE.test(rawUsername) ? rawUsername : 'unknown';
+
+  // typeId는 1~12 범위만 허용 — 나머지 파라미터는 TYPES에서 가져옴 (외부 입력 신뢰 안 함)
+  const typeId = Math.min(12, Math.max(1, Number(searchParams.get('typeId') ?? 0)));
+  const type = TYPES[typeId];
 
   const accent = COLORS[typeId] ?? '#3182F6';
 
@@ -33,13 +39,11 @@ export default async function handler(req) {
           position: 'relative',
         }}
       >
-        {/* 배경 액센트 */}
         <div style={{
           position: 'absolute', top: 0, left: 0, right: 0,
           height: '6px', background: accent,
         }} />
 
-        {/* 이모지 */}
         <div style={{
           width: 96, height: 96, borderRadius: '50%',
           background: '#fff', display: 'flex',
@@ -47,20 +51,17 @@ export default async function handler(req) {
           fontSize: 48, marginBottom: 20,
           boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
         }}>
-          {emoji}
+          {type.emoji}
         </div>
 
-        {/* 유형명 */}
         <div style={{ fontSize: 36, fontWeight: 700, color: '#191F28', marginBottom: 8 }}>
-          {typeName}
+          {type.name}
         </div>
 
-        {/* 부제 */}
         <div style={{ fontSize: 18, color: '#8B95A1', marginBottom: 32, textAlign: 'center', maxWidth: 400 }}>
-          {subtitle}
+          {type.subtitle}
         </div>
 
-        {/* 유저네임 + 브랜드 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ fontSize: 14, color: '#8B95A1' }}>@{username}</div>
           <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#E5E8EB' }} />

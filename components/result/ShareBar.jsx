@@ -20,7 +20,7 @@ export default function ShareBar({ username, typeName, emoji, typeId, subtitle }
       content: {
         title: `나는 ${emoji} ${typeName}`,
         description: 'GitHub 커밋이 증명하는 나의 개발자 유형',
-        imageUrl: `${window.location.origin}/api/og?username=${username}&typeId=${typeId}&emoji=${encodeURIComponent(emoji)}&typeName=${encodeURIComponent(typeName)}&subtitle=${encodeURIComponent(subtitle)}`,
+        imageUrl: `${window.location.origin}/api/og?username=${username}&typeId=${typeId}`,
         link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
       },
       buttons: [{ title: '내 유형 알아보기', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }],

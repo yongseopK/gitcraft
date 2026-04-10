@@ -22,13 +22,20 @@ export default function ResultPage() {
   useEffect(() => {
     if (!username) return;
 
-    fetch(`/api/analyze?username=${username}`)
+    const controller = new AbortController();
+
+    fetch(`/api/analyze?username=${username}`, { signal: controller.signal })
       .then((res) => {
         if (!res.ok) return res.json().then((d) => Promise.reject({ status: res.status, ...d }));
         return res.json();
       })
       .then(setResult)
-      .catch((err) => setError(err));
+      .catch((err) => {
+        if (err.name === 'AbortError') return; // 언마운트로 인한 취소는 무시
+        setError(err);
+      });
+
+    return () => controller.abort();
   }, [username]);
 
   const pageTitle = result
@@ -43,7 +50,7 @@ export default function ResultPage() {
           <>
             <meta property="og:title" content={`나는 ${result.emoji} ${result.typeName}`} />
             <meta property="og:description" content={result.subtitle} />
-            <meta property="og:image" content={`/api/og?username=${username}&typeId=${result.typeId}&emoji=${encodeURIComponent(result.emoji)}&typeName=${encodeURIComponent(result.typeName)}&subtitle=${encodeURIComponent(result.subtitle)}`} />
+            <meta property="og:image" content={`/api/og?username=${username}&typeId=${result.typeId}`} />
             <meta property="og:type" content="website" />
             <meta name="twitter:card" content="summary_large_image" />
           </>
