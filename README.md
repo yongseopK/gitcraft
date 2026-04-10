@@ -4,7 +4,7 @@ GitHub 커밋 데이터로 나의 개발자 유형을 분석해주는 서비스.
 
 OAuth 없이 GitHub 유저네임만 입력하면 12가지 유형 중 하나를 판정해준다.
 
-**→ [gitcraft.vercel.app](https://gitcraft.vercel.app)**
+**→ [git.typecraft.kr](https://git.typecraft.kr)**
 
 ---
 
