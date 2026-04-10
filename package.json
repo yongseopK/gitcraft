@@ -1,0 +1,23 @@
+{
+  "name": "gitcraft",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@upstash/redis": "^1.37.0",
+    "@vercel/og": "^0.11.1",
+    "next": "^15.5.15",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2"
+  }
+}
