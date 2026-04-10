@@ -23,10 +23,13 @@ export default function UsernameForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full max-w-sm">
       <div
-        className="flex items-center bg-white rounded-xl px-4 transition-colors"
-        style={{ border: `1.5px solid ${error ? '#F04452' : '#E5E8EB'}` }}
+        className="flex items-center rounded-xl px-4 transition-colors"
+        style={{
+          background: '#161B22',
+          border: `1.5px solid ${error ? '#F85149' : '#30363D'}`,
+        }}
       >
-        <span className="text-sm whitespace-nowrap select-none" style={{ color: '#8B95A1' }}>
+        <span className="text-sm whitespace-nowrap select-none" style={{ color: '#7D8590' }}>
           github.com/
         </span>
         <input
@@ -37,18 +40,18 @@ export default function UsernameForm() {
           autoFocus
           autoComplete="off"
           spellCheck={false}
-          className="flex-1 py-3.5 pl-1 text-sm bg-transparent outline-none placeholder:text-[#8B95A1]"
-          style={{ color: '#191F28' }}
+          className="flex-1 py-3.5 pl-1 text-sm bg-transparent outline-none"
+          style={{ color: '#E6EDF3' }}
         />
       </div>
 
-      {error && <p className="text-xs pl-1" style={{ color: '#F04452' }}>{error}</p>}
+      {error && <p className="text-xs pl-1" style={{ color: '#F85149' }}>{error}</p>}
 
       <button
         type="submit"
         disabled={!username.trim()}
         className="py-3.5 text-white rounded-xl text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-default cursor-pointer"
-        style={{ background: '#3182F6' }}
+        style={{ background: '#58A6FF' }}
       >
         내 개발자 유형 분석하기
       </button>

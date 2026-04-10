@@ -6,8 +6,8 @@ const SLOTS = [
   { label: '야간', range: [21, 24] },
 ];
 
-const COLOR_ACTIVE  = '#3182F6';
-const COLOR_PASSIVE = '#E5E8EB';
+const COLOR_ACTIVE  = '#58A6FF';
+const COLOR_PASSIVE = '#30363D';
 
 export default function TimeDistChart({ hourDist, peakHour }) {
   const slotCounts = SLOTS.map(({ range: [s, e] }) =>

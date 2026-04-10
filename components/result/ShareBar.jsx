@@ -31,14 +31,16 @@ export default function ShareBar({ username, typeName, emoji, typeId, subtitle }
     <div className="flex flex-col gap-2 w-full">
       <button
         onClick={handleKakao}
-        className="flex items-center justify-center gap-2 py-3.5 bg-[#FEE500] text-[#191919] rounded-xl font-semibold text-sm cursor-pointer hover:opacity-90 transition-opacity"
+        className="flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm cursor-pointer hover:opacity-90 transition-opacity"
+        style={{ background: '#FEE500', color: '#191919' }}
       >
         <span>카카오톡으로 공유하기</span>
       </button>
 
       <button
         onClick={handleCopy}
-        className="flex items-center justify-center gap-2 py-3.5 bg-white border border-[--color-border] text-[--color-text] rounded-xl font-semibold text-sm cursor-pointer hover:bg-[--color-bg] transition-colors"
+        className="flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm cursor-pointer transition-colors"
+        style={{ background: '#21262D', border: '1px solid #30363D', color: '#E6EDF3' }}
       >
         {copied ? '✓ 링크 복사됨' : '🔗 링크 복사'}
       </button>

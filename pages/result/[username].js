@@ -57,17 +57,17 @@ export default function ResultPage() {
         )}
       </Head>
 
-      <main className="min-h-screen bg-[--color-bg] flex flex-col items-center px-4 py-10">
+      <main className="min-h-screen flex flex-col items-center px-4 py-10" style={{ background: '#0D1117' }}>
         <div className="w-full max-w-sm flex flex-col gap-4">
           {/* 헤더 */}
           <div className="flex items-center gap-2 mb-2">
             <button
               onClick={() => router.push('/')}
-              className="text-sm text-[--color-text-secondary] hover:text-[--color-text] transition-colors cursor-pointer"
+              className="text-sm transition-colors cursor-pointer" style={{ color: '#7D8590' }}
             >
               ← 홈
             </button>
-            <span className="text-sm text-[--color-text-secondary]">@{username}</span>
+            <span className="text-sm" style={{ color: '#7D8590' }}>@{username}</span>
           </div>
 
           {/* 로딩 */}
@@ -75,15 +75,16 @@ export default function ResultPage() {
 
           {/* 에러 */}
           {error && (
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
+            <div className="rounded-2xl p-8 text-center" style={{ background: '#161B22', border: '1px solid #30363D' }}>
               <p className="text-3xl mb-3">😵</p>
-              <p className="font-semibold text-[--color-text] mb-1">분석 실패</p>
-              <p className="text-sm text-[--color-text-secondary]">
+              <p className="font-semibold mb-1" style={{ color: '#E6EDF3' }}>분석 실패</p>
+              <p className="text-sm" style={{ color: '#7D8590' }}>
                 {ERROR_MESSAGES[error.status] ?? error.error ?? '오류가 발생했습니다'}
               </p>
               <button
                 onClick={() => router.push('/')}
-                className="mt-5 text-sm text-[--color-primary] font-semibold cursor-pointer"
+                className="mt-5 text-sm font-semibold cursor-pointer"
+                style={{ color: '#58A6FF' }}
               >
                 다시 시도하기
               </button>
@@ -109,7 +110,8 @@ export default function ResultPage() {
               />
               <button
                 onClick={() => router.push('/')}
-                className="text-sm text-[--color-text-secondary] text-center py-2 cursor-pointer hover:text-[--color-text] transition-colors"
+                className="text-sm text-center py-2 cursor-pointer transition-colors"
+                style={{ color: '#7D8590' }}
               >
                 친구 GitHub도 분석하기 →
               </button>

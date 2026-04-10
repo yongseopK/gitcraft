@@ -19,15 +19,16 @@ export default function LoadingScreen({ username }) {
   return (
     <div className="flex flex-col items-center gap-4 py-10">
       <span className="text-5xl animate-pulse">{STEPS[step].icon}</span>
-      <p className="text-sm font-semibold text-[--color-text-secondary]">@{username}</p>
-      <p className="text-lg font-medium text-[--color-text] min-h-7 animate-[fadeIn_0.3s_ease]">
+      <p className="text-sm font-semibold" style={{ color: '#7D8590' }}>@{username}</p>
+      <p className="text-lg font-medium min-h-7 animate-[fadeIn_0.3s_ease]" style={{ color: '#E6EDF3' }}>
         {STEPS[step].text}
       </p>
       <div className="flex gap-1.5 mt-2">
         {STEPS.map((_, i) => (
           <span
             key={i}
-            className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${i <= step ? 'bg-[--color-primary]' : 'bg-[--color-border]'}`}
+            className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+            style={{ background: i <= step ? '#58A6FF' : '#30363D' }}
           />
         ))}
       </div>
