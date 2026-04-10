@@ -1,24 +1,14 @@
 import { fetchUserData } from '@/lib/github/fetcher';
 import { analyze } from '@/lib/analyzer';
 import { getCached, setCached } from '@/lib/cache';
+import { USERNAME_RE } from '@/lib/validation';
 
-// 인메모리 IP Rate Limit (Vercel 인스턴스당 적용)
-// 프로덕션에서는 Upstash Redis 기반으로 교체 권장
-const ipHits = new Map(); // ip → { count, resetAt }
+const ipHits      = new Map();
 const RATE_LIMIT  = 10;
-const RATE_WINDOW = 60 * 60 * 1000; // 1시간
-const CLEANUP_INTERVAL = 10 * 60 * 1000; // 10분마다 만료 항목 정리
-
-// 만료된 IP 항목 주기적 정리 — Map 무한 증가 방지
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, entry] of ipHits) {
-    if (now > entry.resetAt) ipHits.delete(ip);
-  }
-}, CLEANUP_INTERVAL);
+const RATE_WINDOW = 60 * 60 * 1000;
 
 function checkRateLimit(ip) {
-  const now = Date.now();
+  const now   = Date.now();
   const entry = ipHits.get(ip);
 
   if (!entry || now > entry.resetAt) {
@@ -28,18 +18,15 @@ function checkRateLimit(ip) {
   if (entry.count >= RATE_LIMIT) return false;
 
   entry.count++;
+  // 만료 항목은 다음 접근 시 덮어쓰이므로 별도 정리 불필요
   return true;
 }
-
-// GitHub 유저네임 규칙: 영문/숫자/하이픈, 1~39자, 하이픈 시작/연속 불가
-const USERNAME_RE = /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,37}[a-zA-Z0-9])?$|^[a-zA-Z0-9]$/;
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // IP Rate Limit
   const ip = req.headers['x-forwarded-for']?.split(',')[0].trim()
     ?? req.socket?.remoteAddress
     ?? 'unknown';
@@ -48,7 +35,6 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: '요청이 너무 많습니다. 1시간 후 다시 시도해주세요.' });
   }
 
-  // 입력 검증
   const { username } = req.query;
   if (!username || typeof username !== 'string') {
     return res.status(400).json({ error: 'username이 필요합니다' });
@@ -63,9 +49,7 @@ export default async function handler(req, res) {
 
   try {
     const cached = await getCached(normalized);
-    if (cached) {
-      return res.status(200).json({ ...cached, fromCache: true });
-    }
+    if (cached) return res.status(200).json({ ...cached, fromCache: true });
 
     const rawData = await fetchUserData(normalized);
     const result  = analyze(rawData);
@@ -83,9 +67,7 @@ export default async function handler(req, res) {
     };
 
     const mapped = errorMap[err.message];
-    if (mapped) {
-      return res.status(mapped.status).json({ error: mapped.message });
-    }
+    if (mapped) return res.status(mapped.status).json({ error: mapped.message });
 
     console.error('[analyze]', err);
     return res.status(500).json({ error: '분석 중 오류가 발생했습니다' });
