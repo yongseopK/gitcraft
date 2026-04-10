@@ -22,8 +22,11 @@ export default function UsernameForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full max-w-sm">
-      <div className={`flex items-center bg-white border rounded-xl px-4 transition-colors ${error ? 'border-red-400' : 'border-[--color-border] focus-within:border-[--color-primary]'}`}>
-        <span className="text-sm text-[--color-text-secondary] whitespace-nowrap select-none">
+      <div
+        className="flex items-center bg-white rounded-xl px-4 transition-colors"
+        style={{ border: `1.5px solid ${error ? '#F04452' : '#E5E8EB'}` }}
+      >
+        <span className="text-sm whitespace-nowrap select-none" style={{ color: '#8B95A1' }}>
           github.com/
         </span>
         <input
@@ -34,16 +37,18 @@ export default function UsernameForm() {
           autoFocus
           autoComplete="off"
           spellCheck={false}
-          className="flex-1 py-3.5 pl-1 text-sm bg-transparent outline-none text-[--color-text] placeholder:text-[--color-text-secondary]"
+          className="flex-1 py-3.5 pl-1 text-sm bg-transparent outline-none placeholder:text-[#8B95A1]"
+          style={{ color: '#191F28' }}
         />
       </div>
 
-      {error && <p className="text-xs text-red-500 pl-1">{error}</p>}
+      {error && <p className="text-xs pl-1" style={{ color: '#F04452' }}>{error}</p>}
 
       <button
         type="submit"
         disabled={!username.trim()}
-        className="py-3.5 bg-[--color-primary] text-white rounded-xl text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-default cursor-pointer"
+        className="py-3.5 text-white rounded-xl text-base font-semibold transition-opacity hover:opacity-90 disabled:opacity-40 disabled:cursor-default cursor-pointer"
+        style={{ background: '#3182F6' }}
       >
         내 개발자 유형 분석하기
       </button>

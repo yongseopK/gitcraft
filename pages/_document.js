@@ -5,6 +5,10 @@ export default function Document() {
     <Html lang="ko">
       <Head>
         <meta charSet="utf-8" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+        />
         {/* 카카오 SDK — NEXT_PUBLIC_KAKAO_KEY는 Vercel 환경변수로 설정 */}
         <script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"

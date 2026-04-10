@@ -43,8 +43,12 @@ export default function StatsGrid({ stats }) {
           {WEEKDAYS.map((day, i) => (
             <div key={day} className="flex-1 flex flex-col items-center gap-0.5 justify-end">
               <div
-                className={`w-full rounded-t transition-all ${i === peakDayIdx ? 'bg-[--color-primary]' : 'bg-[--color-border]'}`}
-                style={{ height: `${Math.max(3, (weekdayDist[i] / maxDay) * 28)}px` }}
+                style={{
+                  width: '100%',
+                  height: `${Math.max(3, (weekdayDist[i] / maxDay) * 28)}px`,
+                  background: i === peakDayIdx ? '#3182F6' : '#E5E8EB',
+                  borderRadius: '3px 3px 0 0',
+                }}
               />
               <span className="text-[9px] text-[--color-text-secondary]">{day}</span>
             </div>
