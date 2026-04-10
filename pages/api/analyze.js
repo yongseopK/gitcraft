@@ -5,8 +5,17 @@ import { getCached, setCached } from '@/lib/cache';
 // 인메모리 IP Rate Limit (Vercel 인스턴스당 적용)
 // 프로덕션에서는 Upstash Redis 기반으로 교체 권장
 const ipHits = new Map(); // ip → { count, resetAt }
-const RATE_LIMIT = 10;         // 10회/시간
+const RATE_LIMIT  = 10;
 const RATE_WINDOW = 60 * 60 * 1000; // 1시간
+const CLEANUP_INTERVAL = 10 * 60 * 1000; // 10분마다 만료 항목 정리
+
+// 만료된 IP 항목 주기적 정리 — Map 무한 증가 방지
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of ipHits) {
+    if (now > entry.resetAt) ipHits.delete(ip);
+  }
+}, CLEANUP_INTERVAL);
 
 function checkRateLimit(ip) {
   const now = Date.now();
