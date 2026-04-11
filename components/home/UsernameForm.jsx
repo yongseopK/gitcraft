@@ -40,8 +40,8 @@ export default function UsernameForm() {
           autoFocus
           autoComplete="off"
           spellCheck={false}
-          className="flex-1 py-3.5 pl-1 text-sm bg-transparent outline-none"
-          style={{ color: '#E6EDF3' }}
+          className="flex-1 py-3.5 pl-1 bg-transparent outline-none"
+          style={{ color: '#E6EDF3', fontSize: '16px' }}
         />
       </div>
 
